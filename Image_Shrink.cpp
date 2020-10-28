@@ -1,4 +1,5 @@
 #include <math.h>
+#include <sys/time.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -8,10 +9,10 @@
 using namespace cv;
 
 struct object_rect {
-    int x;
-    int y;
-    int width;
-    int height;
+    int x;      /*左上角x*/
+    int y;      /*左上角y*/
+    int width;  /*长度*/
+    int height; /*宽度*/
 };
 /*函数名：	resize_uniform()
  *函数功能：等比例缩放函数
@@ -80,11 +81,24 @@ int resize_uniform(Mat &src, Mat &dst, Size dst_size, object_rect &effect_area)
 
 int main()
 {
+    timeval starttime,endtime;/*开始时间，结束时间*/
     Mat img = imread("1.jpg", 3);
     Mat dst;
     object_rect res_area;
+
+    gettimeofday(&starttime,0);/*开始时间*/
+    
     (void)resize_uniform(img, dst, Size(100, 100), res_area);
     imwrite("out.jpg", dst);
+
+    gettimeofday(&endtime,0);/*结束时间*/
+    double timeuse = 1000000*(endtime.tv_sec - starttime.tv_sec) 
+                        + endtime.tv_usec - starttime.tv_usec;
+    /*除以1000则进行毫秒计时，如果除以1000000则进行秒级别计时，
+     * 如果除以1则进行微妙级别计时*/
+    timeuse /=1000;
+    std::cout << "usetime:"<< timeuse <<" ms" <<std::endl;
+    
     std::cout << "effectiave area: (" << res_area.x << ", " << res_area.y << ", " << res_area.width << ", " << res_area.height << ")" << std::endl;
     imshow("100*100",dst);
     return 0;
