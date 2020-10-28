@@ -8,4 +8,8 @@
 ## 首先你得保证你的linux里有opencv
 ## 如果没有可以找度娘
 ## 本人环境为ubuntu16.04 + opencv-3.4.0
+## 进入到该目录后
 
+### cmake .
+### make
+### ./Image_Shrink
