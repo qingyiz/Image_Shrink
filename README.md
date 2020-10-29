@@ -13,3 +13,30 @@
 ### cmake .
 ### make
 ### ./Image_Shrink
+
+## 但是以上步骤是没有使用mysql数据库的
+
+## 执行以下命令
+
+### sudo service mysql start //启动MySQL
+### mysql -u root -p  //然后输入你的密码，root密码
+
+##  进入到mysql界面后  
+### create database handle_image;   //创建数据库
+### use handle_image;          //进入到该数据库
+### create table usetime(filename varchar(30),usetime float); //创建表
+
+## 到此为止，数据库表已经创建好了
+
+## 重新启动一个终端,进入该目录
+
+###  g++ test.cpp mmysql.cpp -o test -lmysqlclient
+###  ./test
+
+## 然后再进入刚刚那个mysql界面
+
+### select * from usetime;
+
+##然后会多一条刚刚录入的信息
+
+
