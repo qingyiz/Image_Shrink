@@ -37,6 +37,13 @@
 
 ### select * from usetime;
 
-##然后会多一条刚刚录入的信息
+## 然后会多一条刚刚录入的信息，表明数据库操作也是没有问题的
+
+## 现在就是只需要把两个模块整合起来即可
+
+### cd handle_image/
+### g++ ./src/*.cpp -o handle `pkg-config --cflags --libs opencv` -lmysqlclient
+### ./handle 1.jpg
+## 然后就会输出一个out.jpg文件，并在相应的数据库中保存使用时间
 
 
