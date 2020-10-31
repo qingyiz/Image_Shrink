@@ -74,4 +74,27 @@ int resize_uniform(Mat &src, Mat &dst, Size dst_size, object_rect &effect_area)
 }
 
 
+/*函数名：	crop_effect_area()
+ *函数功能：等比例恢复函数
+ *参数：src 等比例缩放后的图像
+ *		dst 输出目标图像
+ *		dst_size 等比例缩放之前的原始图像大小
+ *		effect_area 等比例缩放后的有效区域
+ */
+int crop_effect_area(Mat &uniform_scaled, Mat &dst, Size ori_size, object_rect effect_area)
+{
+    Mat tmp = Mat(Size(effect_area.width, effect_area.height), CV_8UC3, Scalar(0));
 
+    if(effect_area.x == 0 && effect_area.y == 0) {
+        resize(uniform_scaled, dst, ori_size);
+        return 0;
+    } else if (effect_area.x == 0) {
+        memcpy(tmp.data, uniform_scaled.data+effect_area.y*effect_area.width*3, effect_area.width*effect_area.height*3);
+    } else if (effect_area.y == 0) {
+        for (int i=0; i<effect_area.height; i++) {
+            memcpy(tmp.data + i*effect_area.width*3, uniform_scaled.data+i*uniform_scaled.cols*3+effect_area.x*3, effect_area.width*3);
+        }
+    }
+    resize(tmp, dst, ori_size);
+    return 0;
+}
